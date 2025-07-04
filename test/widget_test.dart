@@ -9,6 +9,5 @@ void main() {
     await tester.pumpWidget(const Splitense());
 
     expect(find.byType(MaterialApp), findsOneWidget);
-
   });
 }
