@@ -26,7 +26,6 @@ class AppTheme {
       secondary: secondaryPurple,
       tertiary: accentTeal,
       surface: lightSurface,
-      background: lightBackground,
       error: errorRed,
     ),
     textTheme: GoogleFonts.interTextTheme(),
@@ -40,7 +39,7 @@ class AppTheme {
         color: Colors.black,
       ),
     ),
-    cardTheme: const CardTheme(
+    cardTheme: const CardThemeData(
       elevation: 0,
       color: lightSurface,
       surfaceTintColor: Colors.transparent,
@@ -64,7 +63,6 @@ class AppTheme {
       secondary: secondaryPurple,
       tertiary: accentTeal,
       surface: darkSurface,
-      background: darkBackground,
       error: errorRed,
     ),
     textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
@@ -78,7 +76,7 @@ class AppTheme {
         color: Colors.white,
       ),
     ),
-    cardTheme: const CardTheme(
+    cardTheme: const CardThemeData(
       elevation: 0,
       color: darkSurface,
       surfaceTintColor: Colors.transparent,
@@ -95,6 +93,3 @@ class AppTheme {
     ),
   );
 }
-
-
-

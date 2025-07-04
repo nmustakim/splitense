@@ -16,9 +16,7 @@ class GroupDetailScreen extends StatelessWidget {
       builder: (context, viewModel, child) {
         final group = viewModel.currentGroup;
         if (group == null) {
-          return const Scaffold(
-            body: Center(child: Text('Group not found')),
-          );
+          return const Scaffold(body: Center(child: Text('Group not found')));
         }
 
         return Scaffold(
@@ -35,7 +33,10 @@ class GroupDetailScreen extends StatelessWidget {
             length: 3,
             child: Column(
               children: [
-                _buildSummaryHeader(context, group).animate().slideY(begin: -0.3).fadeIn(),
+                _buildSummaryHeader(
+                  context,
+                  group,
+                ).animate().slideY(begin: -0.3).fadeIn(),
                 const TabBar(
                   tabs: [
                     Tab(icon: Icon(LucideIcons.receipt), text: 'Expenses'),
@@ -68,8 +69,14 @@ class GroupDetailScreen extends StatelessWidget {
   }
 
   Widget _buildSummaryHeader(BuildContext context, group) {
-    final totalExpenses = group.expenses.fold(0.0, (sum, expense) => sum + expense.amount);
-    final avgPerPerson = group.participants.isNotEmpty ? totalExpenses / group.participants.length : 0.0;
+    final totalExpenses = group.expenses.fold(
+      0.0,
+      (sum, expense) => sum + expense.amount,
+    );
+    final avgPerPerson =
+        group.participants.isNotEmpty
+            ? totalExpenses / group.participants.length
+            : 0.0;
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -99,10 +106,7 @@ class GroupDetailScreen extends StatelessWidget {
                   children: [
                     const Text(
                       'Total Spent',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
-                      ),
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
                     ),
                     Text(
                       '\$${totalExpenses.toStringAsFixed(2)}',
@@ -121,10 +125,7 @@ class GroupDetailScreen extends StatelessWidget {
                   children: [
                     const Text(
                       'Per Person',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
-                      ),
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
                     ),
                     Text(
                       '\$${avgPerPerson.toStringAsFixed(2)}',
@@ -160,7 +161,11 @@ class GroupDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard({required IconData icon, required String label, required String value}) {
+  Widget _buildStatCard({
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(12),
@@ -177,10 +182,7 @@ class GroupDetailScreen extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 12,
-                  ),
+                  style: const TextStyle(color: Colors.white70, fontSize: 12),
                 ),
                 Text(
                   value,
@@ -198,7 +200,11 @@ class GroupDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildExpensesTab(BuildContext context, group, BillSplittingViewModel viewModel) {
+  Widget _buildExpensesTab(
+    BuildContext context,
+    group,
+    BillSplittingViewModel viewModel,
+  ) {
     if (group.expenses.isEmpty) {
       return _buildEmptyExpenses(context);
     }
@@ -208,7 +214,9 @@ class GroupDetailScreen extends StatelessWidget {
       itemCount: group.expenses.length,
       itemBuilder: (context, index) {
         final expense = group.expenses[index];
-        final payer = group.participants.firstWhere((p) => p.id == expense.paidById);
+        final payer = group.participants.firstWhere(
+          (p) => p.id == expense.paidById,
+        );
 
         return Card(
           margin: const EdgeInsets.only(bottom: 12),
@@ -247,18 +255,28 @@ class GroupDetailScreen extends StatelessWidget {
                 ),
                 PopupMenuButton(
                   icon: const Icon(LucideIcons.moreVertical, size: 16),
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      onTap: () => _confirmDeleteExpense(context, expense.id, viewModel),
-                      child: const Row(
-                        children: [
-                          Icon(LucideIcons.trash2, size: 16, color: Colors.red),
-                          SizedBox(width: 8),
-                          Text('Delete'),
-                        ],
-                      ),
-                    ),
-                  ],
+                  itemBuilder:
+                      (context) => [
+                        PopupMenuItem(
+                          onTap:
+                              () => _confirmDeleteExpense(
+                                context,
+                                expense.id,
+                                viewModel,
+                              ),
+                          child: const Row(
+                            children: [
+                              Icon(
+                                LucideIcons.trash2,
+                                size: 16,
+                                color: Colors.red,
+                              ),
+                              SizedBox(width: 8),
+                              Text('Delete'),
+                            ],
+                          ),
+                        ),
+                      ],
                 ),
               ],
             ),
@@ -288,9 +306,9 @@ class GroupDetailScreen extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             'No Expenses Yet',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ).animate().fadeIn(delay: 400.ms),
           const SizedBox(height: 8),
           Text(
@@ -315,19 +333,21 @@ class GroupDetailScreen extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 12),
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: isNeutral
-                  ? Colors.grey.withAlpha(16)
-                  : isPositive
-                  ? AppTheme.successGreen.withAlpha(16)
-                  : AppTheme.errorRed.withAlpha(16),
+              backgroundColor:
+                  isNeutral
+                      ? Colors.grey.withAlpha(16)
+                      : isPositive
+                      ? AppTheme.successGreen.withAlpha(16)
+                      : AppTheme.errorRed.withAlpha(16),
               child: Text(
                 participant.name[0].toUpperCase(),
                 style: TextStyle(
-                  color: isNeutral
-                      ? Colors.grey
-                      : isPositive
-                      ? AppTheme.successGreen
-                      : AppTheme.errorRed,
+                  color:
+                      isNeutral
+                          ? Colors.grey
+                          : isPositive
+                          ? AppTheme.successGreen
+                          : AppTheme.errorRed,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -343,11 +363,12 @@ class GroupDetailScreen extends StatelessWidget {
                   ? 'Gets back'
                   : 'Owes',
               style: TextStyle(
-                color: isNeutral
-                    ? Colors.grey
-                    : isPositive
-                    ? AppTheme.successGreen
-                    : AppTheme.errorRed,
+                color:
+                    isNeutral
+                        ? Colors.grey
+                        : isPositive
+                        ? AppTheme.successGreen
+                        : AppTheme.errorRed,
               ),
             ),
             trailing: Text(
@@ -357,11 +378,12 @@ class GroupDetailScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: isNeutral
-                    ? Colors.grey
-                    : isPositive
-                    ? AppTheme.successGreen
-                    : AppTheme.errorRed,
+                color:
+                    isNeutral
+                        ? Colors.grey
+                        : isPositive
+                        ? AppTheme.successGreen
+                        : AppTheme.errorRed,
               ),
             ),
           ),
@@ -370,7 +392,10 @@ class GroupDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSettlementsTab(BuildContext context, BillSplittingViewModel viewModel) {
+  Widget _buildSettlementsTab(
+    BuildContext context,
+    BillSplittingViewModel viewModel,
+  ) {
     final settlements = viewModel.getSettlements();
 
     if (settlements.isEmpty) {
@@ -446,10 +471,7 @@ class GroupDetailScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Icon(
-                  LucideIcons.arrowRight,
-                  color: Colors.grey,
-                ),
+                const Icon(LucideIcons.arrowRight, color: Colors.grey),
                 const SizedBox(width: 12),
                 CircleAvatar(
                   backgroundColor: AppTheme.successGreen.withAlpha(8),
@@ -481,38 +503,46 @@ class GroupDetailScreen extends StatelessWidget {
   void _addExpense(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const AddExpenseScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => const AddExpenseScreen()),
     );
   }
 
-  void _shareGroupSummary(BuildContext context, BillSplittingViewModel viewModel) {
+  void _shareGroupSummary(
+    BuildContext context,
+    BillSplittingViewModel viewModel,
+  ) {
     final summary = viewModel.generateSummaryText();
     Share.share(summary, subject: 'Group Expense Summary');
   }
 
-  void _confirmDeleteExpense(BuildContext context, String expenseId, BillSplittingViewModel viewModel) {
+  void _confirmDeleteExpense(
+    BuildContext context,
+    String expenseId,
+    BillSplittingViewModel viewModel,
+  ) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Expense'),
-        content: const Text('Are you sure you want to delete this expense?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Delete Expense'),
+            content: const Text(
+              'Are you sure you want to delete this expense?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  viewModel.deleteExpense(expenseId);
+                  Navigator.pop(context);
+                },
+                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                child: const Text('Delete'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              viewModel.deleteExpense(expenseId);
-              Navigator.pop(context);
-            },
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
     );
   }
 }

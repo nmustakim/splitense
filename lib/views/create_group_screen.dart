@@ -49,10 +49,11 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
   void _createGroup() {
     if (!_formKey.currentState!.validate()) return;
 
-    final participantNames = _participantControllers
-        .map((controller) => controller.text.trim())
-        .where((name) => name.isNotEmpty)
-        .toList();
+    final participantNames =
+        _participantControllers
+            .map((controller) => controller.text.trim())
+            .where((name) => name.isNotEmpty)
+            .toList();
 
     if (participantNames.length < 2) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -79,10 +80,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
       appBar: AppBar(
         title: const Text('Create Group'),
         actions: [
-          TextButton(
-            onPressed: _createGroup,
-            child: const Text('Create'),
-          ),
+          TextButton(onPressed: _createGroup, child: const Text('Create')),
         ],
       ),
       body: Form(
@@ -94,14 +92,18 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
             children: [
               _buildGroupNameSection().animate().slideY(begin: 0.3).fadeIn(),
               const SizedBox(height: 32),
-              _buildParticipantsSection().animate().slideY(begin: 0.3, delay: 200.ms).fadeIn(),
+              _buildParticipantsSection()
+                  .animate()
+                  .slideY(begin: 0.3, delay: 200.ms)
+                  .fadeIn(),
               const SizedBox(height: 32),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _createGroup,
-                  child: const Text('Create Group'),
-                ).animate().slideY(begin: 0.3, delay: 400.ms).fadeIn(),
+                child:
+                    ElevatedButton(
+                      onPressed: _createGroup,
+                      child: const Text('Create Group'),
+                    ).animate().slideY(begin: 0.3, delay: 400.ms).fadeIn(),
               ),
             ],
           ),
@@ -116,9 +118,9 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
       children: [
         Text(
           'Group Name',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         TextFormField(
@@ -126,9 +128,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
           decoration: InputDecoration(
             hintText: 'e.g., Weekend Trip, Roommates...',
             prefixIcon: const Icon(LucideIcons.users),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
           validator: (value) {
             if (value == null || value.trim().isEmpty) {
@@ -149,9 +149,9 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
           children: [
             Text(
               'Participants',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const Spacer(),
             TextButton.icon(
@@ -165,28 +165,32 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
         ...List.generate(_participantControllers.length, (index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 12),
-            child: TextFormField(
-              controller: _participantControllers[index],
-              decoration: InputDecoration(
-                hintText: 'Participant ${index + 1} name',
-                prefixIcon: const Icon(LucideIcons.user),
-                suffixIcon: _participantControllers.length > 2
-                    ? IconButton(
-                  onPressed: () => _removeParticipantField(index),
-                  icon: const Icon(LucideIcons.x, size: 16),
-                )
-                    : null,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              validator: (value) {
-                if (value != null && value.trim().isNotEmpty && value.trim().length < 2) {
-                  return 'Name must be at least 2 characters';
-                }
-                return null;
-              },
-            ).animate(delay: (index * 100).ms).slideX(begin: 0.3).fadeIn(),
+            child:
+                TextFormField(
+                  controller: _participantControllers[index],
+                  decoration: InputDecoration(
+                    hintText: 'Participant ${index + 1} name',
+                    prefixIcon: const Icon(LucideIcons.user),
+                    suffixIcon:
+                        _participantControllers.length > 2
+                            ? IconButton(
+                              onPressed: () => _removeParticipantField(index),
+                              icon: const Icon(LucideIcons.x, size: 16),
+                            )
+                            : null,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value != null &&
+                        value.trim().isNotEmpty &&
+                        value.trim().length < 2) {
+                      return 'Name must be at least 2 characters';
+                    }
+                    return null;
+                  },
+                ).animate(delay: (index * 100).ms).slideX(begin: 0.3).fadeIn(),
           );
         }),
       ],
