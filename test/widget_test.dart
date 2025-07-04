@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:splitense/main.dart';
 
 void main() {
   testWidgets('Splitense app launches successfully', (
     WidgetTester tester,
   ) async {
-    // Override animation behavior for testing
-    await tester.binding.setSurfaceSize(const Size(800, 600));
+    // Set animation duration to nearly zero
+    Animate.defaultDuration = const Duration(milliseconds: 1);
 
-    // Build the app
     await tester.pumpWidget(const Splitense());
 
-    // Just pump once to build the initial frame
+    // Pump with a very short duration to let animations complete quickly
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 10));
 
-    // Test that the app structure exists
     expect(find.byType(MaterialApp), findsOneWidget);
+
+    // Final pump to clean up
+    await tester.pump();
   });
 }
