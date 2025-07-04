@@ -76,7 +76,11 @@ class AppTheme {
         color: Colors.white,
       ),
     ),
-
+    cardTheme: const CardThemeData(
+      elevation: 0,
+      color: darkSurface,
+      surfaceTintColor: Colors.transparent,
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryBlue,
