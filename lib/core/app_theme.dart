@@ -76,7 +76,7 @@ class AppTheme {
         color: Colors.white,
       ),
     ),
-    cardTheme: const CardTheme(
+    cardTheme: const CardThemeData(
       elevation: 0,
       color: darkSurface,
       surfaceTintColor: Colors.transparent,
