@@ -30,9 +30,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   void _addExpense() {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedPayerId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select who paid')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please select who paid')));
       return;
     }
     if (_selectedParticipants.isEmpty) {
@@ -65,19 +65,14 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       builder: (context, viewModel, child) {
         final group = viewModel.currentGroup;
         if (group == null) {
-          return const Scaffold(
-            body: Center(child: Text('Group not found')),
-          );
+          return const Scaffold(body: Center(child: Text('Group not found')));
         }
 
         return Scaffold(
           appBar: AppBar(
             title: const Text('Add Expense'),
             actions: [
-              TextButton(
-                onPressed: _addExpense,
-                child: const Text('Save'),
-              ),
+              TextButton(onPressed: _addExpense, child: const Text('Save')),
             ],
           ),
           body: Form(
@@ -87,18 +82,26 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildExpenseDetailsSection().animate().slideY(begin: 0.3).fadeIn(),
+                  _buildExpenseDetailsSection()
+                      .animate()
+                      .slideY(begin: 0.3)
+                      .fadeIn(),
                   const SizedBox(height: 24),
-                  _buildPayerSection(group).animate().slideY(begin: 0.3, delay: 200.ms).fadeIn(),
+                  _buildPayerSection(
+                    group,
+                  ).animate().slideY(begin: 0.3, delay: 200.ms).fadeIn(),
                   const SizedBox(height: 24),
-                  _buildParticipantsSection(group).animate().slideY(begin: 0.3, delay: 400.ms).fadeIn(),
+                  _buildParticipantsSection(
+                    group,
+                  ).animate().slideY(begin: 0.3, delay: 400.ms).fadeIn(),
                   const SizedBox(height: 32),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _addExpense,
-                      child: const Text('Add Expense'),
-                    ).animate().slideY(begin: 0.3, delay: 600.ms).fadeIn(),
+                    child:
+                        ElevatedButton(
+                          onPressed: _addExpense,
+                          child: const Text('Add Expense'),
+                        ).animate().slideY(begin: 0.3, delay: 600.ms).fadeIn(),
                   ),
                 ],
               ),
@@ -115,9 +118,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       children: [
         Text(
           'Expense Details',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
         TextFormField(
@@ -126,9 +129,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             labelText: 'Description',
             hintText: 'What was this expense for?',
             prefixIcon: const Icon(LucideIcons.fileText),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
           validator: (value) {
             if (value == null || value.trim().isEmpty) {
@@ -145,9 +146,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             labelText: 'Amount',
             hintText: '0.00',
             prefixIcon: const Icon(LucideIcons.dollarSign),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
           validator: (value) {
             if (value == null || value.trim().isEmpty) {
@@ -170,9 +169,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       children: [
         Text(
           'Who Paid?',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
         ...group.participants.map<Widget>((participant) {
@@ -203,15 +202,16 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           children: [
             Text(
               'Split Between',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const Spacer(),
             TextButton(
               onPressed: () {
                 setState(() {
-                  if (_selectedParticipants.length == group.participants.length) {
+                  if (_selectedParticipants.length ==
+                      group.participants.length) {
                     _selectedParticipants.clear();
                   } else {
                     _selectedParticipants.clear();

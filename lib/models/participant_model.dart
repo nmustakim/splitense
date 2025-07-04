@@ -3,18 +3,10 @@ class Participant {
   final String name;
   double balance;
 
-  Participant({
-    required this.id,
-    required this.name,
-    this.balance = 0.0,
-  });
+  Participant({required this.id, required this.name, this.balance = 0.0});
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'balance': balance,
-    };
+    return {'id': id, 'name': name, 'balance': balance};
   }
 
   factory Participant.fromJson(Map<String, dynamic> json) {

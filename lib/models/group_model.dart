@@ -30,12 +30,16 @@ class Group {
     return Group(
       id: json['id'],
       name: json['name'],
-      participants: (json['participants'] as List?)
-          ?.map((p) => Participant.fromJson(p))
-          .toList() ?? [],
-      expenses: (json['expenses'] as List?)
-          ?.map((e) => Expense.fromJson(e))
-          .toList() ?? [],
+      participants:
+          (json['participants'] as List?)
+              ?.map((p) => Participant.fromJson(p))
+              .toList() ??
+          [],
+      expenses:
+          (json['expenses'] as List?)
+              ?.map((e) => Expense.fromJson(e))
+              .toList() ??
+          [],
       createdAt: DateTime.parse(json['createdAt']),
     );
   }

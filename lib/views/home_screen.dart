@@ -56,24 +56,19 @@ class HomeScreen extends StatelessWidget {
               }
 
               if (viewModel.groups.isEmpty) {
-                return SliverFillRemaining(
-                  child: _buildEmptyState(context),
-                );
+                return SliverFillRemaining(child: _buildEmptyState(context));
               }
 
               return SliverPadding(
                 padding: const EdgeInsets.all(16),
                 sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                      final group = viewModel.groups[index];
-                      return _buildGroupCard(context, group, viewModel)
-                          .animate(delay: (index * 100).ms)
-                          .slideY(begin: 0.3, duration: 400.ms)
-                          .fadeIn();
-                    },
-                    childCount: viewModel.groups.length,
-                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final group = viewModel.groups[index];
+                    return _buildGroupCard(context, group, viewModel)
+                        .animate(delay: (index * 100).ms)
+                        .slideY(begin: 0.3, duration: 400.ms)
+                        .fadeIn();
+                  }, childCount: viewModel.groups.length),
                 ),
               );
             },
@@ -103,17 +98,17 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 24),
           Text(
             'No Groups Yet',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ).animate().fadeIn(delay: 400.ms),
           const SizedBox(height: 8),
           Text(
             'Create your first group to start\nsplitting bills with friends',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Colors.grey[600],
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
           ).animate().fadeIn(delay: 600.ms),
           const SizedBox(height: 32),
           ElevatedButton.icon(
@@ -129,8 +124,15 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildGroupCard(BuildContext context, group, BillSplittingViewModel viewModel) {
-    final totalExpenses = group.expenses.fold(0.0, (sum, expense) => sum + expense.amount);
+  Widget _buildGroupCard(
+    BuildContext context,
+    group,
+    BillSplittingViewModel viewModel,
+  ) {
+    final totalExpenses = group.expenses.fold(
+      0.0,
+      (sum, expense) => sum + expense.amount,
+    );
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
@@ -139,9 +141,7 @@ class HomeScreen extends StatelessWidget {
           viewModel.selectGroup(group);
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => const GroupDetailScreen(),
-            ),
+            MaterialPageRoute(builder: (context) => const GroupDetailScreen()),
           );
         },
         borderRadius: BorderRadius.circular(12),
@@ -171,33 +171,41 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Text(
                           group.name,
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
                           '${group.participants.length} members • ${group.expenses.length} expenses',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.grey[600],
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Colors.grey[600]),
                         ),
                       ],
                     ),
                   ),
                   PopupMenuButton(
                     icon: const Icon(LucideIcons.moreVertical),
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        onTap: () => _confirmDelete(context, group.id, viewModel),
-                        child: const Row(
-                          children: [
-                            Icon(LucideIcons.trash2, size: 16, color: Colors.red),
-                            SizedBox(width: 8),
-                            Text('Delete Group'),
-                          ],
-                        ),
-                      ),
-                    ],
+                    itemBuilder:
+                        (context) => [
+                          PopupMenuItem(
+                            onTap:
+                                () => _confirmDelete(
+                                  context,
+                                  group.id,
+                                  viewModel,
+                                ),
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  LucideIcons.trash2,
+                                  size: 16,
+                                  color: Colors.red,
+                                ),
+                                SizedBox(width: 8),
+                                Text('Delete Group'),
+                              ],
+                            ),
+                          ),
+                        ],
                   ),
                 ],
               ),
@@ -216,13 +224,14 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Total Spent',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.grey[600],
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: Colors.grey[600]),
                         ),
                         Text(
                           '\$${totalExpenses.toStringAsFixed(2)}',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: AppTheme.successGreen,
                           ),
@@ -230,10 +239,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     const Spacer(),
-                    const Icon(
-                      LucideIcons.chevronRight,
-                      color: Colors.grey,
-                    ),
+                    const Icon(LucideIcons.chevronRight, color: Colors.grey),
                   ],
                 ),
               ),
@@ -247,33 +253,38 @@ class HomeScreen extends StatelessWidget {
   void _showCreateGroupDialog(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const CreateGroupScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => const CreateGroupScreen()),
     );
   }
 
-  void _confirmDelete(BuildContext context, String groupId, BillSplittingViewModel viewModel) {
+  void _confirmDelete(
+    BuildContext context,
+    String groupId,
+    BillSplittingViewModel viewModel,
+  ) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Group'),
-        content: const Text('Are you sure you want to delete this group? This action cannot be undone.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Delete Group'),
+            content: const Text(
+              'Are you sure you want to delete this group? This action cannot be undone.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  viewModel.deleteGroup(groupId);
+                  Navigator.pop(context);
+                },
+                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                child: const Text('Delete'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              viewModel.deleteGroup(groupId);
-              Navigator.pop(context);
-            },
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
     );
   }
 }

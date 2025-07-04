@@ -26,7 +26,6 @@ class AppTheme {
       secondary: secondaryPurple,
       tertiary: accentTeal,
       surface: lightSurface,
-      background: lightBackground,
       error: errorRed,
     ),
     textTheme: GoogleFonts.interTextTheme(),
@@ -64,7 +63,6 @@ class AppTheme {
       secondary: secondaryPurple,
       tertiary: accentTeal,
       surface: darkSurface,
-      background: darkBackground,
       error: errorRed,
     ),
     textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
@@ -95,6 +93,3 @@ class AppTheme {
     ),
   );
 }
-
-
-

@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/app_theme.dart';
 import 'viewmodels/bill_splitting_viewmodel.dart';
 import 'views/home_screen.dart';
-
 
 void main() {
   runApp(const Splitense());
@@ -28,4 +26,3 @@ class Splitense extends StatelessWidget {
     );
   }
 }
-
